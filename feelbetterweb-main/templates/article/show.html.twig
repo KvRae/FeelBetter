@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/article/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/article/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/article/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous') }}">
+{% endblock %}
+
+{% block body %}
+
+    <a href="{{ path('app_article_indexFront') }}">back to list</a>
+<body>
+<div class="news-block">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <h1 class="newsblock-title" style="color: var(--bs-blue);">Article</h1>
+                <div class="row">
+                    <div class="col-3 news-bg" style="background: url('{{ asset("assets/img/grad.jpeg") }}') center / cover no-repeat;"></div>
+                    <div class="col-9 news-bg">
+                        <h4 style="text-align: left;color: var(--bs-blue);border-bottom-style: inset;border-bottom-color: var(--bs-gray);">
+                            {{ article.nomAuteur }}</h4>
+                        <h4 style="border-bottom-style: inset;">{{ article.theme }}</h4>
+                        <h1 class="newsblock-title-under" style="color: var(--bs-blue);">{{ article.titre }}</h1>
+                        <p>Welcome to the all new coolradio website! We hope you enjoy your stay, and happy listening everyone. To see our program, please check our page 'Program / Schedule'</p>
+
+                        <a href="{{ path('article.pdf', {'idarticle': article.idarticle}) }}">
+                            <button class="btn btn-success" type="button"><i class="far fa-file-pdf"></i> Print</button>
+                        </a>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <h3>Commentaires</h3>
+    </div>
+    <div class="card-body" style="height:233px;">
+        <ul class="list-group">
+
+            {% for commentaire in commentaires %}
+                {% if article.idarticle == commentaire.idarticle.idarticle %}
+            <li class="list-group-item" style="margin-bottom:6px;">
+                <div class="d-flex media">
+                    <div></div>
+                    <div class="media-body">
+                        <div class="d-flex media" style="overflow:visible;">
+                            <div><img class="me-3" style="width: 25px; height:25px; margin-right:5px" src="{{ asset("assets/img/avatar.png") }}"></div>
+                            <div style="overflow:visible;" class="media-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p><a href="#">{{ commentaire.idpatient.nom }}:</a> {{ commentaire.contenu }} <br>
+                                            <small class="text-muted">{{ commentaire.date |date("Y-m-d") }}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+                {% endif %}
+            {% else %}
+                    <h2>il n'ya pas de commentaires </h2>
+            {% endfor %}
+
+        </ul>
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('assets/article/js/article_show.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('"https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"') }}"></script>
+    <script type="text/javascript" src="{{ asset('"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"') }}"></script>
+    <script type="text/javascript" src="{{ asset('"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"') }}"></script>
+{% endblock %}
