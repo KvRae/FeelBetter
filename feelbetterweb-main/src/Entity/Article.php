@@ -55,7 +55,7 @@ class Article
      *
      * @ORM\Column(name="article", type="string", length=500, nullable=false, options={"default"="'non'"})
      */
-    private $article = '\'non\'';
+    private $article = 'non';
 
     /**
      * @var string
@@ -71,7 +71,7 @@ class Article
      * @ORM\Column(name="approuver", type="string", length=255, nullable=false, options={"default"="'Non'"})
      *
      */
-    private $approuver = '\'Non\'';
+    private $approuver = 'non';
 
     /**
      * @var string

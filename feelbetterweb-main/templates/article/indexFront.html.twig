@@ -20,6 +20,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     {% for article in articles %}
+                        {% if article.approuver == 'oui' %}
                         <div class="blog-entry background-white border-1 border-grey-1 margin-bottom-35px">
                             <div class="row no-gutters">
                                 <div class="img-in col-lg-5"><a href="#"><img src="http://placehold.it/400x240" alt=""></a></div>
@@ -36,6 +37,7 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
+                        {% endif %}
                     {% else %}
                         <h2>Il n'ya pas d'article approuver </h2>
                     {% endfor %}

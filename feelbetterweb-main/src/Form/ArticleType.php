@@ -17,7 +17,7 @@ class ArticleType extends AbstractType
         $builder
             ->add('titre',TextType::class,['attr'=>array('placeholder'=> 'Enter your titre'),'required'=>false,])
 
-            ->add('date',DateType::class,['widget'=>'single_text','required'=>false,])
+            //->add('date',DateType::class,['widget'=>'single_text','required'=>false,])
 
             //->add('article')
             ->add('nomAuteur',TextType::class,['attr'=>array('placeholder'=> 'Enter your name'),'required'=>false,])

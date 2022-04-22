@@ -29,7 +29,7 @@
                 <td>{{ article.theme }}</td>
                 <td>{{ article.idexpert }}</td>
                 <td>
-                    <a href="{{ path('app_article_approuver', {'idarticle': article.idarticle}) }}">approuver</a>
+                    <a href="{{ path('article_approuver', {'idarticle': article.idarticle}) }}">approuver</a>
                 </td>
             </tr>
         {% else %}

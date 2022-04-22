@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 /**
@@ -55,6 +55,7 @@ class ArticleController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $article = new Article();
+        $article->setDate(new \DateTime());
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -90,10 +91,12 @@ class ArticleController extends AbstractController
      */
     public function edit(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
+        $article->setDate(new \DateTime());
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
@@ -119,21 +122,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/approval", name="app_article_indexApprouver", methods={"GET"})
-     */
-    public function indexApprouver(EntityManagerInterface $entityManager): Response
-    {
-        $articles = $entityManager
-            ->getRepository(Article::class)
-            ->findAll();
-
-        return $this->render('article/indexApprouver.html.twig', [
-            'articles' => $articles,
-        ]);
-    }
-
-    /**
-     * @Route("/approuver/{id}", name="app_article_approuver", methods={"POST"})
+     * @Route("/approuver/{id}", name="article_approuver", methods={"GET"})
      */
     public function approuver(ManagerRegistry $doctrine, int $id): Response
 {
@@ -145,7 +134,7 @@ class ArticleController extends AbstractController
             'No article found for id '.$id
         );
     }
-    if($article->getApprouver() == "non"){
+    if($article->getApprouver() == 'non'){
     $article->setapprouver('oui');
     $entityManager->flush();
     }
@@ -156,8 +145,8 @@ class ArticleController extends AbstractController
     }
 
 
-    return $this->redirectToRoute('article_show', [
-        'id' => $article->getId()
+    return $this->redirectToRoute('app_article_index', [
+        'id' => $article->getIdarticle()
     ]);
 }
 
@@ -169,6 +158,20 @@ class ArticleController extends AbstractController
         $html = $this->render('article/show.html.twig',['article'=>$article,'commentaires'=>$commentaires]);
         $pdf->showPdfFile($html);
 
+    }
+
+    /**
+     * @Route("/approuver/", name="indexApprouver", methods={"GET"})
+     */
+    public function indexApprouver(EntityManagerInterface $entityManager): Response
+    {
+        $articles = $entityManager
+            ->getRepository(Article::class)
+            ->findAll();
+
+        return $this->render('article/indexApprouver.html.twig', [
+            'articles' => $articles,
+        ]);
     }
 
 }
